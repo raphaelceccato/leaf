@@ -55,9 +55,9 @@ namespace leaf {
 	}
 
 
-	void RenderTexture::clear(int r, int g, int b, int a) {
-		GLubyte color[4] = { (GLubyte)r, (GLubyte)g, (GLubyte)b, (GLubyte)a };
-		glClearTexImage(handle, 0, GL_RGBA, GL_UNSIGNED_BYTE, color);
+	void RenderTexture::clear(const Color& color) {
+		GLubyte colorArr[4] = { (GLubyte)color.r, (GLubyte)color.g, (GLubyte)color.b, (GLubyte)color.a };
+		glClearTexImage(handle, 0, GL_RGBA, GL_UNSIGNED_BYTE, colorArr);
 	}
 
 
@@ -133,12 +133,5 @@ namespace leaf {
 		//glBindVertexArray(Engine::getGlobalVAO());
 		glBindBuffer(GL_ARRAY_BUFFER, Engine::getGlobalVBO());
 		glDrawArrays(GL_QUADS, 0, 4);
-	}
-
-
-	void RenderTexture::clear(const Color& color) {
-		bind();
-		glClearColor(color.r / 255.0f, color.g / 255.0f, color.b / 255.0f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
 	}
 }

@@ -12,8 +12,6 @@ namespace leaf {
 	public:
 		~RenderTexture();
 		virtual bool isRenderTexture() const { return true; }
-		void clear(int r = 0, int g = 0, int b = 0, int a = 255);
-		inline void clear(Color color) { clear(color.r, color.g, color.b, color.a); }
 		void bindFBO();
 		int getFBO() { return fbo; }
 
