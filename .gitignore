@@ -1,0 +1,8 @@
+**/.vs
+**/Debug-Static
+**/Release-Static
+**/Debug-DLL
+**/Release-DLL
+**/Debug
+**/Release
+bin/*
