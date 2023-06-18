@@ -7,7 +7,7 @@
 
 
 namespace leaf {
-	class EXPORT RenderTarget {
+	class RenderTarget {
 	public:
 		virtual void draw(TexturePtr tex, int x, int y, int width, int height, ShaderPtr shader = nullptr) = 0;
 		virtual void drawEx(TexturePtr tex, int x, int y, int width, int height, Rect<int> subrect, float angle, ShaderPtr shader = nullptr) = 0;
