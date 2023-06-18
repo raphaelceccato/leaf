@@ -1,14 +1,24 @@
 #pragma once
-#include "export.h"
+#include <SDL2/SDL_timer.h>
 
 
 namespace leaf {
-	class EXPORT Timer
+	class Timer
 	{
 	public:
-		Timer();
-		void reset();
-		int getElapsedTime() const;
+		Timer() {
+			reset();
+		}
+
+
+		void reset() {
+			startTime = SDL_GetTicks();
+		}
+
+
+		int getElapsedTime() const {
+			return (SDL_GetTicks() - startTime);
+		}
 	private:
 		int startTime;
 	};
