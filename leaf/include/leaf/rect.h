@@ -1,11 +1,10 @@
 #pragma once
-#include "export.h"
 #include <algorithm>
 
 
 namespace leaf {
 	template <typename T>
-	struct EXPORT Rect {
+	struct Rect {
 		T x, y, w, h;
 
 		Rect(T x = 0, T y = 0, T w = 0, T h = 0) : x(x), y(y), w(w), h(h) {}
