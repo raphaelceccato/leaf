@@ -126,22 +126,22 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug-Static|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)/bin</OutDir>
+    <OutDir>$(SolutionDir)/bin/</OutDir>
     <TargetName>$(ProjectName)-debug-static</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug-DLL|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)/bin</OutDir>
+    <OutDir>$(SolutionDir)/bin/</OutDir>
     <TargetName>$(ProjectName)-debug-dll</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release-Static|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)/bin</OutDir>
+    <OutDir>$(SolutionDir)/bin/</OutDir>
     <TargetName>$(ProjectName)-static</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release-DLL|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)/bin</OutDir>
+    <OutDir>$(SolutionDir)/bin/</OutDir>
     <TargetName>$(ProjectName)-dll</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug-Static|x64'">
@@ -277,21 +277,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\engine.cpp" />
-    <ClCompile Include="src\gameobject.cpp" />
-    <ClCompile Include="src\rendertexture.cpp" />
-    <ClCompile Include="src\shader.cpp" />
-    <ClCompile Include="src\sound.cpp" />
-    <ClCompile Include="src\soundchannel.cpp" />
-    <ClCompile Include="src\texture.cpp" />
-    <ClCompile Include="src\timer.cpp" />
-    <ClCompile Include="src\window.cpp" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="include\leaf\animation.h" />
     <ClInclude Include="include\leaf\color.h" />
     <ClInclude Include="include\leaf\engine.h" />
-    <ClInclude Include="include\leaf\export.h" />
     <ClInclude Include="include\leaf\gameobject.h" />
     <ClInclude Include="include\leaf\rect.h" />
     <ClInclude Include="include\leaf\rendertarget.h" />
