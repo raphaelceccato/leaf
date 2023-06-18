@@ -4,7 +4,7 @@
 
 
 namespace leaf {
-	struct EXPORT Color {
+	struct Color {
 		unsigned char r, g, b, a;
 
 		Color(unsigned char r, unsigned char g, unsigned char b, unsigned char a = 255) : r(r), g(g), b(b), a(a) {}
@@ -26,7 +26,7 @@ namespace leaf {
 }
 
 
-	template<> struct EXPORT std::hash<leaf::Color> {
+	template<> struct std::hash<leaf::Color> {
 		size_t operator()(const leaf::Color& color) const {
 			return color.toUInt32();
 		}
