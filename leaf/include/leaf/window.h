@@ -1,22 +1,21 @@
-#pragma once
+#ifndef __LEAF_WINDOW__
 #include <memory>
 #include <string>
 #include <glm/vec2.hpp>
-#include <SDL2/SDL.h>
-#include <glad/glad.h>
 #include <glm/mat4x4.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include "rendertarget.h"
-#include "engine.h"
 
 
 struct SDL_Window;
 
 namespace leaf {
 	class Engine;
-	class Window;
-	typedef std::shared_ptr<Window> WindowPtr;
 
+	template <typename TWindow> class Window;
+	typedef std::shared_ptr<Window<Engine>> WindowPtr;
+
+	template <typename TEngine>
 	class Window : public RenderTarget {
 	public:
 		~Window() {
@@ -59,6 +58,7 @@ namespace leaf {
 
 		void redraw() { SDL_GL_SwapWindow(win); }
 
+
 		void draw(TexturePtr tex, int x, int y, int width, int height, ShaderPtr shader = nullptr) override {
 			int winW, winH;
 			SDL_GetWindowSize(win, &winW, &winH);
@@ -71,7 +71,7 @@ namespace leaf {
 			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
 
 			glBindTexture(GL_TEXTURE_2D, (tex ? tex->getHandle() : 0));
-			shader = (shader ? shader : Engine::getDefaultShader());
+			shader = (shader ? shader : engine->getDefaultShader());
 
 			glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(x, y, 0));
 			glm::mat4 view(1.0f);
@@ -105,7 +105,7 @@ namespace leaf {
 			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
 
 			glBindTexture(GL_TEXTURE_2D, (tex ? tex->getHandle() : 0));
-			shader = (shader ? shader : Engine::getDefaultShader());
+			shader = (shader ? shader : engine->getDefaultShader());
 
 			glm::mat4 model = glm::mat4(1.0f);
 			model = model * glm::translate(glm::mat4(1.0f), glm::vec3(x + width / 2.0f, y + height / 2.0f, 0));
@@ -133,11 +133,13 @@ namespace leaf {
 
 	private:
 		SDL_Window* win;
+		TEngine* engine;
 		int vbo, vao;
 
 		friend class Engine;
 
-		Window(const char* title, int width, int height) {
+		Window(TEngine* engine, const char* title, int width, int height) {
+			this->engine = engine;
 			win = SDL_CreateWindow(title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height,
 				SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
 			if (!win)
@@ -168,6 +170,11 @@ namespace leaf {
 		}
 
 
-		void onResize(SDL_Event* ev);
+		void onResize(SDL_Event* ev) {
+
+		}
 	};
 }
+
+#define __LEAF_WINDOW__
+#endif

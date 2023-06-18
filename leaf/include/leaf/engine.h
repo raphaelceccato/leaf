@@ -1,13 +1,8 @@
-#pragma once
-#include "window.h"
-#include "soundchannel.h"
+#ifndef __LEAF_ENGINE__
 #include <vector>
-#include <SDL2/SDL.h>
-#include <glad/glad.h>
+#include <AL/al.h>
 #include <AL/alc.h>
 
-struct ALCdevice;
-struct ALCcontext;
 
 namespace leaf {
 	constexpr int NUM_SOUND_CHANNELS = 10;
@@ -17,18 +12,20 @@ namespace leaf {
 			throw std::exception(msg);
 	}
 
+	class Engine;
+	template <typename TWindow> class Window; //this template is to avoid cyclic dependency
+	typedef std::shared_ptr<Window<Engine>> WindowPtr;
 
 	class Engine {
 	public:
 		Engine() {
-			prepareStatic();
-
 			if (initialized)
 				throw std::exception("another instance of the engine is already initialized");
 			initialized = true;
 
 			window = nullptr;
 			glContext = nullptr;
+			SDL_SetMainReady();
 			SDL_Init(SDL_INIT_EVERYTHING);
 			SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
 			SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
@@ -64,7 +61,7 @@ namespace leaf {
 
 
 		WindowPtr createWindow(const char* title, int width, int height) {
-			window = std::shared_ptr<Window>(new Window(title, width, height));
+			window = std::shared_ptr<Window<Engine>>(new Window<Engine>(this, title, width, height));
 
 			glContext = SDL_GL_CreateContext(window->getSDLWindow());
 			if (!glContext)
@@ -105,15 +102,13 @@ namespace leaf {
 		WindowPtr window;
 		void* glContext;
 		SoundChannelPtr soundChannels[NUM_SOUND_CHANNELS];
-		static bool initialized;
-		static ShaderPtr defaultShader;
-		static int globalVBO;
-		static int globalVAO;
-		static ALCdevice* alDevice;
+		inline static bool initialized = false;
+		inline static ShaderPtr defaultShader = nullptr;
+		inline static int globalVBO = 0;
+		inline static int globalVAO = 0;
+		inline static ALCdevice* alDevice = NULL;
 		ALCcontext* alContext;
-
-
-		const char* vertCode = R"(
+		inline static const char* vertCode = R"(
 			#version 330 core
 			layout (location = 0) in vec3 pos;
 			layout (location = 1) in vec2 uv;
@@ -127,7 +122,7 @@ namespace leaf {
 				fragCoord = uv;
 			}
 		)";
-		const char* fragCode = R"(
+		inline static const char* fragCode = R"(
 			#version 330 core
 			in vec2 fragCoord;
 			out vec4 fragColor;
@@ -137,13 +132,7 @@ namespace leaf {
 				fragColor = texture(tex, fragCoord);
 			}
 		)";
-
-
-		static void prepareStatic() {
-			static ShaderPtr defaultShader = nullptr;
-			static bool initialized = false;
-			static int globalVAO = 0, globalVBO = 0;
-			static ALCdevice* alDevice = NULL;
-		}
 	};
 }
+#define __LEAF_ENGINE__
+#endif
