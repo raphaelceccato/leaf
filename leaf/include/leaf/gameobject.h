@@ -5,6 +5,9 @@
 
 
 namespace leaf {
+	class GameObject;
+	typedef std::shared_ptr<GameObject> GameObjectPtr;
+
 	class GameObject {
 	public:
 		GameObject() {
@@ -39,7 +42,4 @@ namespace leaf {
 			unsigned int lastGameObjectId = 0;
 		}
 	};
-
-
-	typedef std::shared_ptr<GameObject> GameObjectPtr;
 }

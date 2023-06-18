@@ -7,6 +7,9 @@
 
 
 namespace leaf {
+	class SoundChannel;
+	typedef std::shared_ptr<SoundChannel> SoundChannelPtr;
+
 	class SoundChannel {
 	public:
 		SoundChannel(unsigned int id) : alSource(0) {
@@ -63,7 +66,4 @@ namespace leaf {
 		unsigned int id;
 		unsigned int alSource;
 	};
-
-
-	typedef std::shared_ptr<SoundChannel> SoundChannelPtr;
 }
