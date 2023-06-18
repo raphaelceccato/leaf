@@ -12,7 +12,7 @@ struct SDL_Window;
 namespace leaf {
 	class Engine;
 
-	template <typename TWindow> class Window;
+	template <typename TWindow> class Window; //this template is to avoid cyclic dependency
 	typedef std::shared_ptr<Window<Engine>> WindowPtr;
 
 	template <typename TEngine>
