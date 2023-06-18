@@ -1,5 +1,4 @@
 #pragma once
-#include "export.h"
 #include "texture.h"
 #include "timer.h"
 #include "rect.h"
@@ -10,7 +9,7 @@ namespace leaf {
 	class Animation;
 	typedef std::shared_ptr<Animation> AnimationPtr;
 
-	class EXPORT Animation {
+	class Animation {
 	public:
 		static AnimationPtr createStaticAnimation(TexturePtr tex, Rect<int> rect) {
 			auto anim = std::make_shared<Animation>(tex, 1, false);
@@ -42,7 +41,7 @@ namespace leaf {
 	};
 
 
-	class EXPORT Animator {
+	class Animator {
 	public:
 		Animator(AnimationPtr anim = nullptr) { this->anim = anim; }
 		AnimationPtr getAnimation() const { return anim; }
@@ -64,5 +63,6 @@ namespace leaf {
 	};
 
 
+	template class std::shared_ptr<Animator>;
 	typedef std::shared_ptr<Animator> AnimatorPtr;
 }
