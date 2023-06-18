@@ -9,6 +9,9 @@
 
 
 namespace leaf {
+	class Shader;
+	typedef std::shared_ptr<Shader> ShaderPtr;
+
 	class Shader {
 	public:
 		Shader(const char* vertexCode, const char* fragmentCode) {
@@ -150,10 +153,27 @@ namespace leaf {
 		int vert, frag;
 		int program;
 
-		void compile(int handle);
-		void link();
+		void compile(int handle) {
+			glCompileShader(handle);
+			int success = 0;
+			glGetShaderiv(handle, GL_COMPILE_STATUS, &success);
+			if (!success) {
+				char msg[512];
+				glGetShaderInfoLog(handle, 512, NULL, msg);
+				throw std::exception((std::string("error compiling shader: ") + msg).c_str());
+			}
+		}
+
+
+		void link() {
+			int success = 0;
+			glLinkProgram(program);
+			glGetProgramiv(program, GL_LINK_STATUS, &success);
+			if (!success) {
+				char msg[512];
+				glGetShaderInfoLog(program, 512, NULL, msg);
+				throw std::exception((std::string("error linking shader program: ") + msg).c_str());
+			}
+		}
 	};
-
-
-	typedef std::shared_ptr<Shader> ShaderPtr;
 }
