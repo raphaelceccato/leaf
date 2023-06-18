@@ -41,6 +41,9 @@ namespace leaf {
 	};
 
 
+	class Animator;
+	typedef std::shared_ptr<Animator> AnimatorPtr;
+
 	class Animator {
 	public:
 		Animator(AnimationPtr anim = nullptr) { this->anim = anim; }
@@ -61,8 +64,4 @@ namespace leaf {
 		AnimationPtr anim;
 		Timer timer;
 	};
-
-
-	template class std::shared_ptr<Animator>;
-	typedef std::shared_ptr<Animator> AnimatorPtr;
 }
