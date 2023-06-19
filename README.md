@@ -1,14 +1,11 @@
 # leaf
-A very simple and minimalist game engine/library that uses SDL2, OpenGL and OpenAL
+A very simple and minimalist header-only game engine/library that uses SDL2, OpenGL and OpenAL and is based on C++17
 
 ## How to use
-To begin, create a Engine object and use the createWindow() function. See the test project included for an example code.
+To begin, include ```leaf.h```, create a Engine object and then use the createWindow() function. See the test project included for an example code.
 
-## Building
-This repo contains a Visual Studio solution file with both static and DLL targets.
-It also contains a simple test program that shows a image on the screen
-
-To build you must have the following dependencies installed:
+## Dependencies
+To use the library you must have the following dependencies installed:
 ```
 glm
 SDL2
