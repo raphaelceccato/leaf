@@ -8,7 +8,6 @@ int main(int argc, char** argv) {
 		Engine engine;
 		auto win = engine.createWindow("leaf test", 640, 480);
 		auto tex = Texture::create("leaf.png");
-		auto rt = RenderTexture::create(640, 480);
 		bool running = true;
 		SDL_Event ev;
 		while (running) {
@@ -22,11 +21,8 @@ int main(int argc, char** argv) {
 				}
 			}
 			win->clear(Color(0, 0, 0));
-			auto size = win->getSize();
-			rt->clear(Color(0, 255, 0));
-			rt->drawEx(tex, 64, 32, 128, 128, Rect<int>(0, 0, tex->getWidth(), tex->getHeight())
+			win->drawEx(tex, 64, 32, 128, 128, Rect<int>(0, 0, tex->getWidth(), tex->getHeight())
 				, 6.28f * 0.001f * engine.getTicks());
-			win->draw(rt, 0, 0, size.x/2, size.y/2);
 			win->redraw();
 		}
 	}
