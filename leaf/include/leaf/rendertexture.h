@@ -74,8 +74,8 @@ namespace leaf {
 
 			glBindFramebuffer(GL_FRAMEBUFFER, fbo);
 			glBindTexture(GL_TEXTURE_2D, tex ? tex->getHandle() : 0);
-			glViewport(0, 0, width, height);
-			glm::mat4 mvp = glm::ortho(0.0f, (float)width, 0.0f, (float)height);
+			glViewport(0, 0, this->width, this->height);
+			glm::mat4 mvp = glm::ortho(0.0f, (float)this->width, 0.0f, (float)this->height);
 			if (shader == nullptr)
 				shader = Engine::getDefaultShader();
 			shader->bind();
