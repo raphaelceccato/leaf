@@ -83,6 +83,7 @@ namespace leaf {
 			glViewport(0, 0, winW, winH);
 			glBindVertexArray(vao);
 			glBindBuffer(GL_ARRAY_BUFFER, vbo);
+			glBindFramebuffer(GL_FRAMEBUFFER, 0);
 			glDrawArrays(GL_QUADS, 0, 4);
 		}
 
