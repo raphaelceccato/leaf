@@ -80,10 +80,10 @@ namespace leaf {
 			shader->bind();
 			shader->setUniform("mvp", mvp);
 
-			glViewport(0, 0, winW, winH);
 			glBindVertexArray(vao);
 			glBindBuffer(GL_ARRAY_BUFFER, vbo);
 			glBindFramebuffer(GL_FRAMEBUFFER, 0);
+			glViewport(0, 0, winW, winH);
 			glDrawArrays(GL_QUADS, 0, 4);
 		}
 
