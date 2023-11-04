@@ -125,6 +125,7 @@ namespace leaf {
 
 
 		void clear(const Color& color) override {
+			glBindFramebuffer(GL_FRAMEBUFFER, 0);
 			glBindTexture(GL_TEXTURE_2D, 0);
 			glClearColor(color.r / 255.0f, color.g / 255.0f, color.b / 255.0f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT);
