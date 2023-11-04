@@ -105,6 +105,7 @@ namespace leaf {
 								   width / 2.0f, -height / 2.0f,					u1, v0,
 								   width / 2.0f, height / 2.0f,						u1, v1,
 								   -width / 2.0f, height / 2.0f,					u0, v1 };
+			glBindVertexArray(Engine::getGlobalVAO());
 			glBindBuffer(GL_ARRAY_BUFFER, Engine::getGlobalVBO());
 			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
 
@@ -116,14 +117,13 @@ namespace leaf {
 			if (angle != 0)
 				model = model * glm::rotate(glm::mat4(1.0f), angle, glm::vec3(0, 0, 1));
 			glm::mat4 view(1.0f);
-			glm::mat4 proj = glm::ortho(0.0f, (float)width, (float)height, 0.0f);
+			glm::mat4 proj = glm::ortho(0.0f, (float)this->width, 0.0f, (float)this->height);
 			glm::mat4 mvp = proj * view * model;
 			shader->bind();
 			shader->setUniform("mvp", mvp);
 
-			glViewport(0, 0, width, height);
-			//glBindVertexArray(Engine::getGlobalVAO());
-			glBindBuffer(GL_ARRAY_BUFFER, Engine::getGlobalVBO());
+			glViewport(0, 0, this->width, this->height);
+			glBindFramebuffer(GL_FRAMEBUFFER, fbo);
 			glDrawArrays(GL_QUADS, 0, 4);
 		}
 
