@@ -75,6 +75,16 @@ namespace leaf {
 			glGenBuffers(1, (GLuint*)&globalVBO);
 			glGenVertexArrays(1, (GLuint*)&globalVAO);
 
+			glBindBuffer(GL_ARRAY_BUFFER, globalVBO);
+			glBindVertexArray(globalVAO);
+			float tmp[16];
+			memset(tmp, 0, sizeof(tmp));
+			glBufferData(GL_ARRAY_BUFFER, sizeof(tmp), tmp, GL_DYNAMIC_DRAW);
+			glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
+			glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
+			glEnableVertexAttribArray(0);
+			glEnableVertexAttribArray(1);
+
 			glEnable(GL_TEXTURE_2D);
 			glEnable(GL_BLEND);
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
