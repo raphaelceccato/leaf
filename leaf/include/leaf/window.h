@@ -102,6 +102,7 @@ namespace leaf {
 								   width / 2.0f, -height / 2.0f,					u1, v0,
 								   width / 2.0f, height / 2.0f,						u1, v1,
 								   -width / 2.0f, height / 2.0f,					u0, v1 };
+			glBindVertexArray(vao);
 			glBindBuffer(GL_ARRAY_BUFFER, vbo);
 			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
 
@@ -118,9 +119,8 @@ namespace leaf {
 			shader->bind();
 			shader->setUniform("mvp", mvp);
 
+			glBindFramebuffer(GL_FRAMEBUFFER, 0);
 			glViewport(0, 0, winW, winH);
-			glBindVertexArray(vao);
-			glBindBuffer(GL_ARRAY_BUFFER, vbo);
 			glDrawArrays(GL_QUADS, 0, 4);
 		}
 
