@@ -11,6 +11,7 @@ namespace leaf {
 	class GameObject {
 	public:
 		GameObject() {
+			static unsigned int lastGameObjectId = 0;
 			animator = std::make_shared<Animator>(nullptr);
 			gameObjectId = ++lastGameObjectId;
 		}
@@ -36,10 +37,5 @@ namespace leaf {
 
 	private:
 		unsigned int gameObjectId;
-		static unsigned int lastGameObjectId;
-
-		void prepareStatic() {
-			unsigned int lastGameObjectId = 0;
-		}
 	};
 }
