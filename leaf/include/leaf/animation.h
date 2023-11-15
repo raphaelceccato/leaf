@@ -4,16 +4,28 @@
 #include "rect.h"
 #include <vector>
 #include <memory>
+#include <exception>
+#include <glm/vec2.hpp>
 
 namespace leaf {
 	class Animation;
 	typedef std::shared_ptr<Animation> AnimationPtr;
 
+	struct AnimFrame {
+		Rect<int> rect;
+		glm::ivec2 offset;
+
+		AnimFrame(Rect<int> rect, glm::ivec2 offset = glm::ivec2(0, 0)) {
+			this->rect = rect;
+			this->offset = offset;
+		}
+	};
+
 	class Animation {
 	public:
-		static AnimationPtr createStaticAnimation(TexturePtr tex, Rect<int> rect) {
+		static AnimationPtr createStaticAnimation(TexturePtr tex, Rect<int> rect, glm::ivec2 offset = glm::ivec2(0, 0)) {
 			auto anim = std::make_shared<Animation>(tex, 1, false);
-			anim->addFrame(rect);
+			anim->addFrame(rect, offset);
 			return anim;
 		}
 
@@ -22,10 +34,14 @@ namespace leaf {
 			this->frameTime = frameTime;
 			this->repeat = repeat;
 		}
-		void addFrame(Rect<int> rect) {
-			frames.push_back(rect);
+		void addFrame(Rect<int> rect, glm::ivec2 offset = glm::ivec2(0, 0)) {
+			frames.emplace_back(rect, offset);
 		}
-		Rect<int> getFrame(int index) const { return (!frames.empty() ? frames.at(index) : Rect<int>()); }
+		AnimFrame& getFrame(int index) const {
+			if (frames.empty())
+				throw std::exception("animation is empty");
+			return frames[index];
+		}
 		int getFrameCount() const { return frames.size(); }
 		TexturePtr getTexture() const { return tex; }
 		bool isRepeating() const { return repeat; }
@@ -54,7 +70,7 @@ namespace leaf {
 		}
 		void reset() { timer.reset(); }
 		bool hasFinished() const { return (!anim || (!anim->isRepeating() && timer.getElapsedTime() >= anim->getDuration())); }
-		Rect<int> getCurrentFrame() const {
+		AnimFrame& getCurrentFrame() const {
 			if (!anim)
 				throw std::exception("no animation defined for animator");
 			return anim->getFrame((anim->isRepeating() ? (timer.getElapsedTime() / anim->getFrameTime()) % anim->frames.size()
