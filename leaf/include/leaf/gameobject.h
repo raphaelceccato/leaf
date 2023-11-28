@@ -25,8 +25,8 @@ namespace leaf {
 
 		void drawOnTarget(RenderTargetPtr target) {
 			if (auto anim = animator->getAnimation()) {
-				auto rect = animator->getCurrentFrame();
-				target->drawEx(anim->getTexture(), pos.x, pos.y, rect.w, rect.h, rect, 0);
+				auto frame = animator->getCurrentFrame();
+				target->drawEx(anim->getTexture(), pos.x - frame.offset.x, pos.y - frame.offset.y, frame.rect.w, frame.rect.h, frame.rect, 0);
 			}
 		}
 
