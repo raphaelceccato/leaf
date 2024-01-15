@@ -37,7 +37,7 @@ namespace leaf {
 		void addFrame(Rect<int> rect, glm::ivec2 offset = glm::ivec2(0, 0)) {
 			frames.emplace_back(rect, offset);
 		}
-		AnimFrame& getFrame(int index) const {
+		AnimFrame& getFrame(int index) {
 			if (frames.empty())
 				throw std::exception("animation is empty");
 			return frames[index];
