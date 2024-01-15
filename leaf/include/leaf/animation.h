@@ -51,7 +51,7 @@ namespace leaf {
 		TexturePtr tex;
 		unsigned int frameTime;
 		bool repeat;
-		std::vector<Rect<int>> frames;
+		std::vector<AnimFrame> frames;
 
 		friend class Animator;
 	};
