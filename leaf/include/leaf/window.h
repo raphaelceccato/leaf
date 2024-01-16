@@ -140,10 +140,10 @@ namespace leaf {
 
 		friend class Engine;
 
-		Window(TEngine* engine, const char* title, int width, int height) {
+		Window(TEngine* engine, const char* title, int width, int height, bool resizable) {
 			this->engine = engine;
 			win = SDL_CreateWindow(title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height,
-				SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
+				SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | (resizable ? SDL_WINDOW_RESIZABLE : 0));
 			if (!win)
 				throw std::exception(("error creating window: " + std::string(SDL_GetError()) + ")").c_str());
 		}
