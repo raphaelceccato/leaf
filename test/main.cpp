@@ -6,7 +6,7 @@ using namespace leaf;
 int main(int argc, char** argv) {
 	try {
 		Engine engine;
-		auto win = engine.createWindow("leaf test", 640, 480);
+		auto win = engine.createWindow("leaf test", 640, 480, false);
 		auto tex = Texture::create("leaf.png");
 		bool running = true;
 		SDL_Event ev;
