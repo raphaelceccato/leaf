@@ -94,12 +94,24 @@ namespace leaf {
 		}
 
 
-		void drawEx(TexturePtr tex, int x, int y, int width, int height, Rect<int> subrect, float angle, ShaderPtr shader = nullptr) override {
+		void drawEx(TexturePtr tex, int x, int y, int width, int height, Rect<int> subrect, FlipMode flip, float angle, ShaderPtr shader = nullptr) override {
 			float u0 = 0, v0 = 0, u1 = 1, v1 = 1;
 			u0 = subrect.x / (float)tex->getWidth();
 			v0 = subrect.y / (float)tex->getHeight();
 			u1 = (subrect.x + subrect.w) / (float)tex->getWidth();
 			v1 = (subrect.y + subrect.h) / (float)tex->getHeight();
+
+			if (flip == FlipMode::Horizontal || flip == FlipMode::Both) {
+				float tmp = u0;
+				u0 = u1;
+				u1 = tmp;
+			}
+
+			if (flip == FlipMode::Vertical || flip == FlipMode::Both) {
+				float tmp = v0;
+				v0 = v1;
+				v1 = tmp;
+			}
 
 			float vertices[16] = { -width / 2.0f, -height / 2.0f,					u0, v0, //vertex (2 floats), uv (2 floats)
 								   width / 2.0f, -height / 2.0f,					u1, v0,

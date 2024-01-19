@@ -88,7 +88,7 @@ namespace leaf {
 		}
 
 
-		void drawEx(TexturePtr tex, int x, int y, int width, int height, Rect<int> subrect, float angle, ShaderPtr shader = nullptr) override {
+		void drawEx(TexturePtr tex, int x, int y, int width, int height, Rect<int> subrect, FlipMode flip, float angle, ShaderPtr shader = nullptr) override {
 			int winW, winH;
 			SDL_GetWindowSize(win, &winW, &winH);
 
