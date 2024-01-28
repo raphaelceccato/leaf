@@ -60,8 +60,8 @@ namespace leaf {
 		}
 
 
-		WindowPtr createWindow(const char* title, int width, int height) {
-			window = std::shared_ptr<Window<Engine>>(new Window<Engine>(this, title, width, height));
+		WindowPtr createWindow(const char* title, int width, int height, bool resizable) {
+			window = std::shared_ptr<Window<Engine>>(new Window<Engine>(this, title, width, height, resizable));
 
 			glContext = SDL_GL_CreateContext(window->getSDLWindow());
 			if (!glContext)
