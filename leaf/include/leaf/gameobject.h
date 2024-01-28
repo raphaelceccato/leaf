@@ -14,6 +14,7 @@ namespace leaf {
 			static unsigned int lastGameObjectId = 0;
 			animator = std::make_shared<Animator>(nullptr);
 			gameObjectId = ++lastGameObjectId;
+			flipMode = FlipMode::None;
 		}
 
 
@@ -21,12 +22,14 @@ namespace leaf {
 		glm::ivec2 getPosition() const { return pos; }
 		void setPosition(const glm::ivec2 pos) { this->pos = pos; }
 		AnimatorPtr getAnimator() const { return animator; }
+		FlipMode getFlipMode() const { return flipMode; }
+		void setFlipMode(FlipMode flipMode) { this->flipMode = flipMode; }
 
 
 		void drawOnTarget(RenderTargetPtr target) {
 			if (auto anim = animator->getAnimation()) {
 				auto frame = animator->getCurrentFrame();
-				target->drawEx(anim->getTexture(), pos.x - frame.offset.x, pos.y - frame.offset.y, frame.rect.w, frame.rect.h, frame.rect, 0);
+				target->drawEx(anim->getTexture(), pos.x - frame.offset.x, pos.y - frame.offset.y, frame.rect.w, frame.rect.h, frame.rect, flipMode, 0);
 			}
 		}
 
@@ -34,6 +37,7 @@ namespace leaf {
 	protected:
 		glm::ivec2 pos;
 		AnimatorPtr animator;
+		FlipMode flipMode;
 
 	private:
 		unsigned int gameObjectId;
