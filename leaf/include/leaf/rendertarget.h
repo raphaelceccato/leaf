@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __LEAF_RENDERTARGET__
+#define __LEAF_RENDERTARGET__
+
 #include "shader.h"
 #include "texture.h"
 #include "color.h"
@@ -24,3 +26,5 @@ namespace leaf {
 		virtual void clear(const Color& color) = 0;
 	};
 }
+
+#endif
