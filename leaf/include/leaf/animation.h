@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __LEAF_ANIMATION__
+#define __LEAF_ANIMATION__
+
 #include "texture.h"
 #include "timer.h"
 #include "rect.h"
@@ -81,3 +83,5 @@ namespace leaf {
 		Timer timer;
 	};
 }
+
+#endif
