@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __LEAF_COLOR__
+#define __LEAF_COLOR__
+
 #include <functional>
 
 
@@ -30,3 +32,5 @@ namespace leaf {
 			return color.toUInt32();
 		}
 	};
+
+#endif
