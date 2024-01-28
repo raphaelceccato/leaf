@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __LEAF_GAMEOBJECT__
+#define __LEAF_GAMEOBJECT__
+
 #include "rendertarget.h"
 #include "texture.h"
 #include "animation.h"
@@ -43,3 +45,5 @@ namespace leaf {
 		unsigned int gameObjectId;
 	};
 }
+
+#endif
