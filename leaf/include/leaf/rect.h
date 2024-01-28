@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __LEAF_RECT__
+#define __LEAF_RECT__
+
 #include <algorithm>
 
 
@@ -25,3 +27,5 @@ namespace leaf {
 		}
 	};
 }
+
+#endif
