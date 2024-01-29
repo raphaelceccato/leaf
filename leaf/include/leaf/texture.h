@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __LEAF_TEXTURE__
+#define __LEAF_TEXTURE__
+
 #include <memory>
 #include <string>
 #include <glm/vec2.hpp>
@@ -119,3 +121,5 @@ namespace leaf {
 		}
 	};
 }
+
+#endif
