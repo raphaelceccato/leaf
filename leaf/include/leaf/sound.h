@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __LEAF_SOUND__
+#define __LEAF_SOUND__
+
 #include <memory>
 #include <fstream>
 #include <string>
@@ -36,3 +38,5 @@ namespace leaf {
         friend class Engine;
     };
 }
+
+#endif
