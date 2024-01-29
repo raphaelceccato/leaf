@@ -1,4 +1,6 @@
 #ifndef __LEAF_WINDOW__
+#define __LEAF_WINDOW__
+
 #include <memory>
 #include <string>
 #include <glm/vec2.hpp>
@@ -178,5 +180,4 @@ namespace leaf {
 	};
 }
 
-#define __LEAF_WINDOW__
 #endif
