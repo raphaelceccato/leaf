@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __LEAF_SOUNDCHANNEL__
+#define __LEAF_SOUNDCHANNEL__
+
 #include <memory>
 #include <exception>
 #include <string>
@@ -67,3 +69,5 @@ namespace leaf {
 		unsigned int alSource;
 	};
 }
+
+#endif
