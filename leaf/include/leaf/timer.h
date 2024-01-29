@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __LEAF_TIMER__
+#define __LEAF_TIMER__
+
 #include <SDL2/SDL_timer.h>
 
 
@@ -23,3 +25,5 @@ namespace leaf {
 		int startTime;
 	};
 }
+
+#endif
