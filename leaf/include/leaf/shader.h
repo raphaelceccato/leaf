@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __LEAF_SHADER__
+#define __LEAF_SHADER__
+
 #include <memory>
 #include <glm/vec2.hpp>
 #include <glm/vec3.hpp>
@@ -177,3 +179,5 @@ namespace leaf {
 		}
 	};
 }
+
+#endif
