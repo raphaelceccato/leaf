@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __LEAF_RENDERTEXTURE__
+#define __LEAF_RENDERTEXTURE__
+
 #include "texture.h"
 #include "rendertarget.h"
 #include "engine.h"
@@ -154,3 +156,5 @@ namespace leaf {
 		}
 	};
 }
+
+#endif
