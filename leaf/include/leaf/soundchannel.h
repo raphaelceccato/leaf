@@ -1,6 +1,4 @@
-#ifndef __LEAF_SOUNDCHANNEL__
-#define __LEAF_SOUNDCHANNEL__
-
+#pragma once
 #include <memory>
 #include <exception>
 #include <string>
@@ -24,8 +22,10 @@ namespace leaf {
 
 
 		~SoundChannel() {
-			if (alSource)
+			if (alSource) {
+				alSourceStop(alSource);
 				alDeleteSources(1, (ALuint*)&alSource);
+			}
 		}
 
 
@@ -69,5 +69,3 @@ namespace leaf {
 		unsigned int alSource;
 	};
 }
-
-#endif
