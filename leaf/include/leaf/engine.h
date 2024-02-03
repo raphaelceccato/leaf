@@ -32,6 +32,7 @@ namespace leaf {
 			SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_COMPATIBILITY);
 			SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
+			alutInit(NULL, NULL);
 			alDevice = alcOpenDevice(NULL);
 			alContext = alcCreateContext(alDevice, NULL);
 			alcMakeContextCurrent(alContext);
@@ -55,8 +56,13 @@ namespace leaf {
 			if (glContext)
 				SDL_GL_DeleteContext(glContext);
 			SDL_Quit();
+			if (alContext) {
+				alcMakeContextCurrent(NULL);
+				alcDestroyContext(alContext);
+			}
 			if (alDevice)
 				alcCloseDevice(alDevice);
+			alutExit();
 		}
 
 
