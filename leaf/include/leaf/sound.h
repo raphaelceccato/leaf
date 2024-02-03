@@ -17,7 +17,7 @@ namespace leaf {
         Sound(const char* path) {
             alBuffer = alutCreateBufferFromFile(path);
             if (!alBuffer)
-                throw std::exception(("failed to create sound buffer: " + std::to_string(alutGetError())).c_str());
+                throw std::exception(("failed to create sound buffer: " + std::string(alutGetErrorString(alutGetError()))).c_str());
         }
 
 
