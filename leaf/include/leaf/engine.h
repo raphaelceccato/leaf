@@ -56,6 +56,10 @@ namespace leaf {
 			if (glContext)
 				SDL_GL_DeleteContext(glContext);
 			SDL_Quit();
+			for (int i = 0; i < NUM_SOUND_CHANNELS; i++) {
+				if (soundChannels[i])
+					soundChannels[i]->stop();
+			}
 			if (alContext) {
 				alcMakeContextCurrent(NULL);
 				alcDestroyContext(alContext);
