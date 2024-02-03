@@ -114,7 +114,7 @@ namespace leaf {
 		}
 
 
-		SoundChannelPtr getSoundChannel(int id) {
+		SoundChannelPtr getSoundChannel(int channel) {
 			if (channel >= NUM_SOUND_CHANNELS)
 				throw std::exception("invalid channel id");
 			return soundChannels[channel];
