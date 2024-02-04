@@ -1,6 +1,4 @@
-#ifndef __LEAF_SOUND__
-#define __LEAF_SOUND__
-
+#pragma once
 #include <memory>
 #include <fstream>
 #include <string>
@@ -21,6 +19,11 @@ namespace leaf {
         }
 
 
+        Sound(ALuint alBuffer) {
+            this->alBuffer = alBuffer;
+        }
+
+
         ~Sound() {
             if (alBuffer)
                 alDeleteBuffers(1, (ALuint*)&alBuffer);
@@ -38,5 +41,3 @@ namespace leaf {
         friend class Engine;
     };
 }
-
-#endif
