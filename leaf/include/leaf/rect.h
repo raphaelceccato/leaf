@@ -1,6 +1,4 @@
-#ifndef __LEAF_RECT__
-#define __LEAF_RECT__
-
+#pragma once
 #include <algorithm>
 
 
@@ -17,7 +15,10 @@ namespace leaf {
 			return w * h;
 		}
 		bool isOverlapping(const Rect& other) const {
-			return (other.isInside(x, y) || other.isInside(x + w, y) || other.isInside(x, y + h) || other.isInside(x + w, y + h));
+			return (isInside(other.x, other.y) || isInside(other.x + other.w, other.y)
+				|| isInside(other.x, other.y + other.h) || isInside(other.x + other.w, other.y + other.h)
+				|| other.isInside(x, y) || other.isInside(x + w, y) || other.isInside(x, y + h)
+				|| other.isInside(x + w, y + h));
 		}
 		bool operator==(const Rect& other) const {
 			return (x == other.x && y == other.y && w == other.w && h == other.h);
@@ -27,5 +28,3 @@ namespace leaf {
 		}
 	};
 }
-
-#endif
