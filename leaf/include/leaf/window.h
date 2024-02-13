@@ -5,6 +5,7 @@
 #include <string>
 #include <glm/vec2.hpp>
 #include <glm/mat4x4.hpp>
+#include <SDL2/SDL.h>
 #include <glm/gtc/matrix_transform.hpp>
 #include "rendertarget.h"
 
