@@ -15,7 +15,6 @@ namespace leaf {
 	class Engine;
 
 	template <typename TWindow> class Window; //this template is to avoid cyclic dependency
-	typedef std::shared_ptr<Window<Engine>> WindowPtr;
 
 	template <typename TEngine>
 	class Window : public RenderTarget {
