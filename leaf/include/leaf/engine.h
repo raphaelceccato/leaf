@@ -123,7 +123,7 @@ namespace leaf {
 		unsigned int getTicks() const { return SDL_GetTicks(); }
 
 
-		void playSound(SoundPtr sound, unsigned int channel) {
+		void playSound(Sound* sound, unsigned int channel) {
 			if (channel >= NUM_SOUND_CHANNELS)
 				throw std::exception("invalid channel id");
 			auto c = soundChannels[channel];

@@ -26,7 +26,7 @@ namespace leaf {
 		}
 
 
-		void play(SoundPtr sound) {
+		void play(Sound* sound) {
 			alSourcei(alSource, AL_BUFFER, sound->getALBuffer());
 			alSourcePlay(alSource);
 		}

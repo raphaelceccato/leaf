@@ -7,9 +7,6 @@
 
 
 namespace leaf {
-    class Sound;
-    typedef std::shared_ptr<Sound> SoundPtr;
-
     class Sound {
     public:
         Sound(const char* path) {
