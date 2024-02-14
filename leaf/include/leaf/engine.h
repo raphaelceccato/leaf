@@ -2,6 +2,7 @@
 #include <vector>
 #include <AL/al.h>
 #include <AL/alc.h>
+#include <SDL2/SDL.h>
 
 
 namespace leaf {
