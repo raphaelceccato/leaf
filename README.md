@@ -16,4 +16,4 @@ SOIL
 ```
 
 ## Documentation
-Check the Wiki for the documentation
+Check the wiki for the documentation
