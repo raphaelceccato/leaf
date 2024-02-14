@@ -7,9 +7,6 @@
 
 
 namespace leaf {
-	class GameObject;
-	typedef std::shared_ptr<GameObject> GameObjectPtr;
-
 	class GameObject {
 	public:
 		GameObject() {
