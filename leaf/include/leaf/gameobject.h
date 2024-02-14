@@ -28,7 +28,7 @@ namespace leaf {
 		void setFlipMode(FlipMode flipMode) { this->flipMode = flipMode; }
 
 
-		void drawOnTarget(RenderTargetPtr target) {
+		void drawOnTarget(RenderTarget* target) {
 			if (auto anim = animator->getAnimation()) {
 				auto frame = animator->getCurrentFrame();
 				target->drawEx(anim->getTexture(), pos.x - frame.offset.x, pos.y - frame.offset.y, frame.rect.w, frame.rect.h, frame.rect, flipMode, 0);

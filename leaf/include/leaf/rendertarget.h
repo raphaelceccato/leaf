@@ -16,9 +16,6 @@ namespace leaf {
 	};
 
 
-	class RenderTarget;
-	typedef std::shared_ptr<RenderTarget> RenderTargetPtr;
-
 	class RenderTarget {
 	public:
 		virtual void draw(Texture* tex, int x, int y, int width, int height, Shader* shader = nullptr) = 0;
