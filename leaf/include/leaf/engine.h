@@ -14,7 +14,6 @@ namespace leaf {
 
 	class Engine;
 	template <typename TWindow> class Window; //this template is to avoid cyclic dependency
-	typedef std::shared_ptr<Window<Engine>> WindowPtr;
 
 	class Engine {
 	public:
@@ -40,33 +39,8 @@ namespace leaf {
 				auto c = std::make_shared<SoundChannel>(i);
 				soundChannels[i] = c;
 			}
-		}
 
-
-		~Engine() {
-			window = nullptr;
-			defaultShader = nullptr;
-			for (int i = 0; i < NUM_SOUND_CHANNELS; i++)
-				soundChannels[i] = nullptr;
-			initialized = false;
-			if (globalVBO)
-				glDeleteBuffers(1, (GLuint*)&globalVBO);
-			if (globalVAO)
-				glDeleteVertexArrays(1, (GLuint*)&globalVAO);
-			if (glContext)
-				SDL_GL_DeleteContext(glContext);
-			SDL_Quit();
-			for (int i = 0; i < NUM_SOUND_CHANNELS; i++) {
-				if (soundChannels[i])
-					soundChannels[i]->stop();
-			}
-			if (alContext) {
-				alcMakeContextCurrent(NULL);
-				alcDestroyContext(alContext);
-			}
-			if (alDevice)
-				alcCloseDevice(alDevice);
-			alutExit();
+			std::at_exit(onExit);
 		}
 
 
@@ -160,6 +134,36 @@ namespace leaf {
 				fragColor = texture(tex, fragCoord);
 			}
 		)";
+
+
+		Engine(const Engine& other) = delete;
+
+
+		void onExit() {
+			window = nullptr;
+			defaultShader = nullptr;
+			for (int i = 0; i < NUM_SOUND_CHANNELS; i++)
+				soundChannels[i] = nullptr;
+			initialized = false;
+			if (globalVBO)
+				glDeleteBuffers(1, (GLuint*)&globalVBO);
+			if (globalVAO)
+				glDeleteVertexArrays(1, (GLuint*)&globalVAO);
+			if (glContext)
+				SDL_GL_DeleteContext(glContext);
+			SDL_Quit();
+			for (int i = 0; i < NUM_SOUND_CHANNELS; i++) {
+				if (soundChannels[i])
+					soundChannels[i]->stop();
+			}
+			if (alContext) {
+				alcMakeContextCurrent(NULL);
+				alcDestroyContext(alContext);
+			}
+			if (alDevice)
+				alcCloseDevice(alDevice);
+			alutExit();
+		}
 	};
 }
 #define __LEAF_ENGINE__
