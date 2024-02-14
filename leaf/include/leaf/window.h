@@ -135,12 +135,12 @@ namespace leaf {
 
 	private:
 		SDL_Window* win;
-		TEngine* engine;
+		Engine* engine;
 		int vbo, vao;
 
 		friend class Engine;
 
-		Window(TEngine* engine, const char* title, int width, int height, bool resizable) {
+		Window(Engine* engine, const char* title, int width, int height, bool resizable) {
 			this->engine = engine;
 			vao = vbo = 0;
 			win = SDL_CreateWindow(title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height,
