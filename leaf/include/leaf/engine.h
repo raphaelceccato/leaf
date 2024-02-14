@@ -39,8 +39,7 @@ namespace leaf {
 			alContext = alcCreateContext(alDevice, NULL);
 			alcMakeContextCurrent(alContext);
 			for (int i = 0; i < NUM_SOUND_CHANNELS; i++) {
-				auto c = std::make_shared<SoundChannel>(i);
-				soundChannels[i] = c;
+				soundChannels[i] = new SoundChannel(i);
 			}
 		}
 
@@ -66,8 +65,10 @@ namespace leaf {
 				SDL_GL_DeleteContext(glContext);
 			SDL_Quit();
 			for (int i = 0; i < NUM_SOUND_CHANNELS; i++) {
-				if (soundChannels[i])
+				if (soundChannels[i]) {
 					soundChannels[i]->stop();
+					delete soundChannels[i];
+				}
 			}
 			if (alContext) {
 				alcMakeContextCurrent(NULL);
@@ -128,7 +129,7 @@ namespace leaf {
 		}
 
 
-		SoundChannelPtr getSoundChannel(int channel) {
+		SoundChannel* getSoundChannel(int channel) {
 			if (channel >= NUM_SOUND_CHANNELS)
 				throw std::exception("invalid channel id");
 			return soundChannels[channel];
@@ -138,7 +139,7 @@ namespace leaf {
 	private:
 		std::unordered_set<_Window<Engine>*> windows;
 		void* glContext;
-		SoundChannelPtr soundChannels[NUM_SOUND_CHANNELS];
+		SoundChannel* soundChannels[NUM_SOUND_CHANNELS];
 		inline static bool initialized = false;
 		inline static ShaderPtr defaultShader = nullptr;
 		inline static int globalVBO = 0;
