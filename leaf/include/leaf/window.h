@@ -144,17 +144,16 @@ namespace leaf {
 
 		Window(TEngine* engine, const char* title, int width, int height, bool resizable) {
 			this->engine = engine;
-			win = NULL;
+			vao = vbo = 0;
+			win = SDL_CreateWindow(title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height,
+				SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | (resizable ? SDL_WINDOW_RESIZABLE : 0));
+			if (!win)
+				throw std::exception(("error creating SDL window: " + std::string(SDL_GetError()) + ")").c_str());
 		}
 
                 Window(const Window& other) = delete;
 
 		void init() {
-			win = SDL_CreateWindow(title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height,
-				SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | (resizable ? SDL_WINDOW_RESIZABLE : 0));
-			if (!win)
-				throw std::exception(("error creating SDL window: " + std::string(SDL_GetError()) + ")").c_str());
-			
 			int width, height;
 			SDL_GetWindowSize(win, &width, &height);
 
