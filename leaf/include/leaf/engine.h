@@ -46,6 +46,10 @@ namespace leaf {
 
 
 		~Engine() {
+			for (Window* win : windows)
+				delete win;
+			windows.clear();
+
 			defaultShader = nullptr;
 			for (int i = 0; i < NUM_SOUND_CHANNELS; i++)
 				soundChannels[i] = nullptr;
@@ -71,18 +75,18 @@ namespace leaf {
 		}
 
 
-		Window& createWindow(const char* title, int width, int height, bool resizable) {
-			auto result = windows.emplace(this, title, width, height, resizable);
-			Window& window = const_cast<Window&>(*result.first);
+		Window* createWindow(const char* title, int width, int height, bool resizable) {
+			Window* win = new Window(this, title, width, height, resizable);
+			windows.insert(win);
 
-			glContext = SDL_GL_CreateContext(window.getSDLWindow());
+			glContext = SDL_GL_CreateContext(win->getSDLWindow());
 			if (!glContext)
 				throw std::exception(("error creating context: " + std::string(SDL_GetError()) + ")").c_str());
 
 			throwIfFalse(gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress), "Could not initialize glad");
 
 			//these needs to be after loading glad
-			window. init();
+			win->init();
 			defaultShader = std::make_shared<Shader>(vertCode, fragCode);
 			glGenBuffers(1, (GLuint*)&globalVBO);
 			glGenVertexArrays(1, (GLuint*)&globalVAO);
@@ -101,7 +105,7 @@ namespace leaf {
 			glEnable(GL_BLEND);
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-			return window;
+			return win;
 		}
 
 
@@ -128,7 +132,7 @@ namespace leaf {
 
 
 	private:
-		std::unordered_set<_Window<Engine>> windows;
+		std::unordered_set<_Window<Engine>*> windows;
 		void* glContext;
 		SoundChannelPtr soundChannels[NUM_SOUND_CHANNELS];
 		inline static bool initialized = false;

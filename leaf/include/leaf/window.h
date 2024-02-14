@@ -155,7 +155,7 @@ namespace leaf {
 				throw std::exception(("error creating SDL window: " + std::string(SDL_GetError()) + ")").c_str());
 		}
 
-                _Window(const _Window& other) = delete;
+        _Window(const _Window& other) = delete;
 
 		void init() {
 			int width, height;
