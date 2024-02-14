@@ -11,9 +11,6 @@
 
 
 namespace leaf {
-	class Shader;
-	typedef std::shared_ptr<Shader> ShaderPtr;
-
 	class Shader {
 	public:
 		Shader(const char* vertexCode, const char* fragmentCode) {

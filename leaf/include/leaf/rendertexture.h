@@ -61,7 +61,7 @@ namespace leaf {
 		}
 
 
-		void draw(Texture* tex, int x, int y, int width, int height, ShaderPtr shader = nullptr) override {
+		void draw(Texture* tex, int x, int y, int width, int height, Shader* shader = nullptr) override {
 			float u = 1.0f;
 			float v = 1.0f;
 
@@ -92,7 +92,7 @@ namespace leaf {
 		}
 
 
-		void drawEx(Texture* tex, int x, int y, int width, int height, Rect<int> subrect, FlipMode flip, float angle, ShaderPtr shader = nullptr) override {
+		void drawEx(Texture* tex, int x, int y, int width, int height, Rect<int> subrect, FlipMode flip, float angle, Shader* shader = nullptr) override {
 			float u0 = 0, v0 = 0, u1 = 1, v1 = 1;
 			u0 = subrect.x / (float)tex->getWidth();
 			v0 = subrect.y / (float)tex->getHeight();

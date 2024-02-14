@@ -21,8 +21,8 @@ namespace leaf {
 
 	class RenderTarget {
 	public:
-		virtual void draw(Texture* tex, int x, int y, int width, int height, ShaderPtr shader = nullptr) = 0;
-		virtual void drawEx(Texture* tex, int x, int y, int width, int height, Rect<int> subrect, FlipMode flip, float angle, ShaderPtr shader = nullptr) = 0;
+		virtual void draw(Texture* tex, int x, int y, int width, int height, Shader* shader = nullptr) = 0;
+		virtual void drawEx(Texture* tex, int x, int y, int width, int height, Rect<int> subrect, FlipMode flip, float angle, Shader* shader = nullptr) = 0;
 		virtual void clear(const Color& color) = 0;
 	};
 }

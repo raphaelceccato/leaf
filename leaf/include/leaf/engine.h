@@ -53,9 +53,12 @@ namespace leaf {
 				delete tex;
 			Texture::_textures.clear();
 
-			defaultShader = nullptr;
+			if (defaultShader) {
+				delete defaultShader;
+				defaultShader = NULL;
+			}
 			for (int i = 0; i < NUM_SOUND_CHANNELS; i++)
-				soundChannels[i] = nullptr;
+				soundChannels[i] = NULL;
 			initialized = false;
 			if (globalVBO)
 				glDeleteBuffers(1, (GLuint*)&globalVBO);
@@ -92,7 +95,7 @@ namespace leaf {
 
 			//these needs to be after loading glad
 			win->init();
-			defaultShader = std::make_shared<Shader>(vertCode, fragCode);
+			defaultShader = new Shader(vertCode, fragCode);
 			glGenBuffers(1, (GLuint*)&globalVBO);
 			glGenVertexArrays(1, (GLuint*)&globalVAO);
 
@@ -114,7 +117,7 @@ namespace leaf {
 		}
 
 
-		static ShaderPtr getDefaultShader() { return defaultShader; }
+		static Shader* getDefaultShader() { return defaultShader; }
 		static int getGlobalVBO() { return globalVBO; }
 		static int getGlobalVAO() { return globalVAO; }
 		unsigned int getTicks() const { return SDL_GetTicks(); }
@@ -141,7 +144,7 @@ namespace leaf {
 		void* glContext;
 		SoundChannel* soundChannels[NUM_SOUND_CHANNELS];
 		inline static bool initialized = false;
-		inline static ShaderPtr defaultShader = nullptr;
+		inline static Shader* defaultShader = NULL;
 		inline static int globalVBO = 0;
 		inline static int globalVAO = 0;
 		inline static ALCdevice* alDevice = NULL;

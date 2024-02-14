@@ -60,7 +60,7 @@ namespace leaf {
 		void redraw() { SDL_GL_SwapWindow(win); }
 
 
-		void draw(Texture* tex, int x, int y, int width, int height, ShaderPtr shader = nullptr) override {
+		void draw(Texture* tex, int x, int y, int width, int height, Shader* shader = nullptr) override {
 			int winW, winH;
 			SDL_GetWindowSize(win, &winW, &winH);
 
@@ -89,7 +89,7 @@ namespace leaf {
 		}
 
 
-		void drawEx(Texture* tex, int x, int y, int width, int height, Rect<int> subrect, FlipMode flip, float angle, ShaderPtr shader = nullptr) override {
+		void drawEx(Texture* tex, int x, int y, int width, int height, Rect<int> subrect, FlipMode flip, float angle, Shader* shader = nullptr) override {
 			int winW, winH;
 			SDL_GetWindowSize(win, &winW, &winH);
 
