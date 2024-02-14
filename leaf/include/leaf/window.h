@@ -21,16 +21,12 @@ namespace leaf {
 	class Window : public RenderTarget {
 	public:
 		~Window() {
-			if (winRefCount > 0)
-				winRefCount--;
-			if (winRefCount == 0 && win) {
-				if (vao)
-					glDeleteVertexArrays(1, (GLuint*)&vao);
-				if (vbo)
-					glDeleteBuffers(1, (GLuint*)&vbo);
-				if (win)
-					SDL_DestroyWindow(win);
-			}
+			if (vao)
+				glDeleteVertexArrays(1, (GLuint*)&vao);
+			if (vbo)
+				glDeleteBuffers(1, (GLuint*)&vbo);
+			if (win)
+				SDL_DestroyWindow(win);
 		}
 
 
@@ -140,27 +136,25 @@ namespace leaf {
 
 
 	private:
-		inline static SDL_Window* win = NULL;
-                inline static int winRefCount = 0;
+		SDL_Window* win;
 		TEngine* engine;
-		inline static int vbo, vao;
+		int vbo, vao;
 
 		friend class Engine;
 
 		Window(TEngine* engine, const char* title, int width, int height, bool resizable) {
 			this->engine = engine;
+			win = NULL;
+		}
+
+                Window(const Window& other) = delete;
+
+		void init() {
 			win = SDL_CreateWindow(title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height,
 				SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | (resizable ? SDL_WINDOW_RESIZABLE : 0));
 			if (!win)
-				throw std::exception(("error creating window: " + std::string(SDL_GetError()) + ")").c_str());
-			winRefCount++;
-		}
-
-                Window(const Window& other) {
-			engine = other.engine;
-		}
-
-		void init() {
+				throw std::exception(("error creating SDL window: " + std::string(SDL_GetError()) + ")").c_str());
+			
 			int width, height;
 			SDL_GetWindowSize(win, &width, &height);
 
