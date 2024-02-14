@@ -15,5 +15,5 @@ freealut
 SOIL
 ```
 
-## TODO
-Make API documentation
+## Documentation
+Check the Wiki for the documentation
