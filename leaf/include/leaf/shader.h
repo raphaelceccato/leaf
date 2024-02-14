@@ -130,7 +130,7 @@ namespace leaf {
 		}
 
 
-		void setUniform(const char* name, TexturePtr texture, int unit) {
+		void setUniform(const char* name, Texture* texture, int unit) {
 			glActiveTexture(GL_TEXTURE0 + unit);
 			texture->bind();
 			int loc = glGetUniformLocation(program, name);

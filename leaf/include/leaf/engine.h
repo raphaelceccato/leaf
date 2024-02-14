@@ -50,6 +50,10 @@ namespace leaf {
 				delete win;
 			windows.clear();
 
+			for (Texture* tex : Texture::_textures)
+				delete tex;
+			Texture::_textures.clear();
+
 			defaultShader = nullptr;
 			for (int i = 0; i < NUM_SOUND_CHANNELS; i++)
 				soundChannels[i] = nullptr;

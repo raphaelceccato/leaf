@@ -6,10 +6,10 @@
 #include <glm/vec2.hpp>
 #include <SDL2/SDL_opengl.h>
 #include <SOIL/SOIL.h>
+#include <unordered_set>
 
 namespace leaf {
-	class Texture;
-	typedef std::shared_ptr<Texture> TexturePtr;
+	class Engine;
 
 
 	class Texture {
@@ -56,7 +56,7 @@ namespace leaf {
 
 		glm::ivec2 getSize() { return glm::ivec2(width, height); }
 
-		static TexturePtr create(int width, int height, unsigned char* data = nullptr) {
+		static Texture* create(int width, int height, unsigned char* data = nullptr) {
 			int handle;
 			glGenTextures(1, (GLuint*)&handle);
 			if (!handle) {
@@ -74,7 +74,7 @@ namespace leaf {
 
 			glBindTexture(GL_TEXTURE_2D, 0);
 
-			auto tex = std::shared_ptr<Texture>(new Texture());
+			Texture* tex = new Texture();
 			tex->handle = handle;
 			tex->width = width;
 			tex->height = height;
@@ -82,7 +82,7 @@ namespace leaf {
 		}
 
 
-		static TexturePtr create(std::string path) {
+		static Texture* create(std::string path) {
 			int handle, width, height, channels;
 			unsigned char* data = SOIL_load_image(path.c_str(), &width, &height, &channels, SOIL_LOAD_RGBA);
 			if (!data)
@@ -92,7 +92,7 @@ namespace leaf {
 				throw std::exception(("Error creating texture from file: " + path).c_str());
 			SOIL_free_image_data(data);
 
-			auto tex = std::shared_ptr<Texture>(new Texture());
+			Texture* tex = new Texture();
 			tex->handle = handle;
 			tex->width = width;
 			tex->height = height;
@@ -118,7 +118,12 @@ namespace leaf {
 		Texture() {
 			handle = width = height = 0;
 			repeated = false;
+			_textures.insert(this);
 		}
+
+		friend class Engine;
+
+		inline static std::unordered_set<Texture*> _textures;
 	};
 }
 

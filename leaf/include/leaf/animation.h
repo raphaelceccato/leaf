@@ -25,13 +25,13 @@ namespace leaf {
 
 	class Animation {
 	public:
-		static AnimationPtr createStaticAnimation(TexturePtr tex, Rect<int> rect, glm::ivec2 offset = glm::ivec2(0, 0)) {
+		static AnimationPtr createStaticAnimation(Texture* tex, Rect<int> rect, glm::ivec2 offset = glm::ivec2(0, 0)) {
 			auto anim = std::make_shared<Animation>(tex, 1, false);
 			anim->addFrame(rect, offset);
 			return anim;
 		}
 
-		Animation(TexturePtr tex, unsigned int frameTime, bool repeat) {
+		Animation(Texture* tex, unsigned int frameTime, bool repeat) {
 			this->tex = tex;
 			this->frameTime = frameTime;
 			this->repeat = repeat;
@@ -45,12 +45,12 @@ namespace leaf {
 			return frames[index];
 		}
 		int getFrameCount() const { return frames.size(); }
-		TexturePtr getTexture() const { return tex; }
+		Texture* getTexture() const { return tex; }
 		bool isRepeating() const { return repeat; }
 		int getDuration() const { return (frameTime * frames.size()); }
 		int getFrameTime() const { return frameTime; }
 	private:
-		TexturePtr tex;
+		Texture* tex;
 		unsigned int frameTime;
 		bool repeat;
 		std::vector<AnimFrame> frames;
