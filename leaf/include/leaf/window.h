@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <string>
+#include <algorithm>
 #include <glm/vec2.hpp>
 #include <glm/mat4x4.hpp>
 #include <SDL2/SDL.h>
@@ -16,9 +17,9 @@ namespace leaf {
 	class Engine;
 
 
-	class Window : public RenderTarget {
+	template <typename TEngine> class _Window : public RenderTarget {
 	public:
-		~Window() {
+		~_Window() {
 			if (vao)
 				glDeleteVertexArrays(1, (GLuint*)&vao);
 			if (vbo)
@@ -135,12 +136,12 @@ namespace leaf {
 
 	private:
 		SDL_Window* win;
-		Engine* engine;
+		TEngine* engine;
 		int vbo, vao;
 
 		friend class Engine;
 
-		Window(Engine* engine, const char* title, int width, int height, bool resizable) {
+		_Window(TEngine* engine, const char* title, int width, int height, bool resizable) {
 			this->engine = engine;
 			vao = vbo = 0;
 			win = SDL_CreateWindow(title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height,
@@ -149,7 +150,7 @@ namespace leaf {
 				throw std::exception(("error creating SDL window: " + std::string(SDL_GetError()) + ")").c_str());
 		}
 
-                Window(const Window& other) = delete;
+                _Window(const _Window& other) = delete;
 
 		void init() {
 			int width, height;
@@ -179,5 +180,11 @@ namespace leaf {
 		}
 	};
 }
+
+template<typename T> struct std::hash<leaf::_Window<T>> {
+	size_t operator()(const leaf::_Window<T>& win) const {
+		return (size_t)win.getSDLWindow();
+	}
+};
 
 #endif
