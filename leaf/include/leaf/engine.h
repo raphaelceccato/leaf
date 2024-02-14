@@ -4,7 +4,6 @@
 #include <AL/al.h>
 #include <AL/alc.h>
 #include <AL/alut.h>
-#include <SDL2/SDL.h>
 #include <cstdlib>
 #include "window.h"
 #include "soundchannel.h"
@@ -17,6 +16,8 @@ namespace leaf {
 		if (!condition)
 			throw std::exception(msg);
 	}
+
+	typedef _Window<Engine> Window;
 
 	class Engine {
 	public:
@@ -127,7 +128,7 @@ namespace leaf {
 
 
 	private:
-		std::unordered_set<Window> windows;
+		std::unordered_set<_Window<Engine>> windows;
 		void* glContext;
 		SoundChannelPtr soundChannels[NUM_SOUND_CHANNELS];
 		inline static bool initialized = false;
