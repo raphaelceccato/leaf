@@ -134,6 +134,11 @@ namespace leaf {
 		}
 
 
+		template<typename T> bool operator==(const _Window<T>& other) const {
+			return (this->getSDLWindow() == other.getSDLWindow());
+		}
+
+
 	private:
 		SDL_Window* win;
 		TEngine* engine;
