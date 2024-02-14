@@ -15,9 +15,7 @@ struct SDL_Window;
 namespace leaf {
 	class Engine;
 
-	template <typename TWindow> class Window; //this template is to avoid cyclic dependency
 
-	template <typename TEngine>
 	class Window : public RenderTarget {
 	public:
 		~Window() {

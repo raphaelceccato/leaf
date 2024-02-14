@@ -1,9 +1,13 @@
 #ifndef __LEAF_ENGINE__
 #include <vector>
+#include <unordered_set>
 #include <AL/al.h>
 #include <AL/alc.h>
 #include <AL/alut.h>
 #include <SDL2/SDL.h>
+#include <cstdlib>
+#include "window.h"
+#include "soundchannel.h"
 
 
 namespace leaf {
@@ -14,9 +18,6 @@ namespace leaf {
 			throw std::exception(msg);
 	}
 
-	class Engine;
-	template <typename TWindow> class Window; //this template is to avoid cyclic dependency
-
 	class Engine {
 	public:
 		Engine() {
@@ -24,7 +25,6 @@ namespace leaf {
 				throw std::exception("another instance of the engine is already initialized");
 			initialized = true;
 
-			window = nullptr;
 			glContext = nullptr;
 			SDL_SetMainReady();
 			SDL_Init(SDL_INIT_EVERYTHING);
@@ -41,22 +41,47 @@ namespace leaf {
 				auto c = std::make_shared<SoundChannel>(i);
 				soundChannels[i] = c;
 			}
-
-			std::at_exit(onExit);
 		}
 
 
-		WindowPtr createWindow(const char* title, int width, int height, bool resizable) {
-			window = std::shared_ptr<Window<Engine>>(new Window<Engine>(this, title, width, height, resizable));
+		~Engine() {
+			defaultShader = nullptr;
+			for (int i = 0; i < NUM_SOUND_CHANNELS; i++)
+				soundChannels[i] = nullptr;
+			initialized = false;
+			if (globalVBO)
+				glDeleteBuffers(1, (GLuint*)&globalVBO);
+			if (globalVAO)
+				glDeleteVertexArrays(1, (GLuint*)&globalVAO);
+			if (glContext)
+				SDL_GL_DeleteContext(glContext);
+			SDL_Quit();
+			for (int i = 0; i < NUM_SOUND_CHANNELS; i++) {
+				if (soundChannels[i])
+					soundChannels[i]->stop();
+			}
+			if (alContext) {
+				alcMakeContextCurrent(NULL);
+				alcDestroyContext(alContext);
+			}
+			if (alDevice)
+				alcCloseDevice(alDevice);
+			alutExit();
+		}
 
-			glContext = SDL_GL_CreateContext(window->getSDLWindow());
+
+		Window& createWindow(const char* title, int width, int height, bool resizable) {
+			auto result = windows.emplace(this, title, width, height, resizable);
+			Window& window = const_cast<Window&>(*result.first);
+
+			glContext = SDL_GL_CreateContext(window.getSDLWindow());
 			if (!glContext)
 				throw std::exception(("error creating context: " + std::string(SDL_GetError()) + ")").c_str());
 
 			throwIfFalse(gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress), "Could not initialize glad");
 
 			//these needs to be after loading glad
-			window->init();
+			window. init();
 			defaultShader = std::make_shared<Shader>(vertCode, fragCode);
 			glGenBuffers(1, (GLuint*)&globalVBO);
 			glGenVertexArrays(1, (GLuint*)&globalVAO);
@@ -79,7 +104,6 @@ namespace leaf {
 		}
 
 
-		WindowPtr getWindow() const { return window; }
 		static ShaderPtr getDefaultShader() { return defaultShader; }
 		static int getGlobalVBO() { return globalVBO; }
 		static int getGlobalVAO() { return globalVAO; }
@@ -103,7 +127,7 @@ namespace leaf {
 
 
 	private:
-		WindowPtr window;
+		std::unordered_set<Window> windows;
 		void* glContext;
 		SoundChannelPtr soundChannels[NUM_SOUND_CHANNELS];
 		inline static bool initialized = false;
@@ -139,33 +163,6 @@ namespace leaf {
 
 
 		Engine(const Engine& other) = delete;
-
-
-		void onExit() {
-			window = nullptr;
-			defaultShader = nullptr;
-			for (int i = 0; i < NUM_SOUND_CHANNELS; i++)
-				soundChannels[i] = nullptr;
-			initialized = false;
-			if (globalVBO)
-				glDeleteBuffers(1, (GLuint*)&globalVBO);
-			if (globalVAO)
-				glDeleteVertexArrays(1, (GLuint*)&globalVAO);
-			if (glContext)
-				SDL_GL_DeleteContext(glContext);
-			SDL_Quit();
-			for (int i = 0; i < NUM_SOUND_CHANNELS; i++) {
-				if (soundChannels[i])
-					soundChannels[i]->stop();
-			}
-			if (alContext) {
-				alcMakeContextCurrent(NULL);
-				alcDestroyContext(alContext);
-			}
-			if (alDevice)
-				alcCloseDevice(alDevice);
-			alutExit();
-		}
 	};
 }
 #define __LEAF_ENGINE__
