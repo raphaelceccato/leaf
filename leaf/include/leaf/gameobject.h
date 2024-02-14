@@ -11,16 +11,20 @@ namespace leaf {
 	public:
 		GameObject() {
 			static unsigned int lastGameObjectId = 0;
-			animator = std::make_shared<Animator>(nullptr);
+			animator = new Animator(nullptr);
 			gameObjectId = ++lastGameObjectId;
 			flipMode = FlipMode::None;
+		}
+
+		~GameObject() {
+			delete animator;
 		}
 
 
 		unsigned int getGameObjectId() const { return gameObjectId; }
 		glm::ivec2 getPosition() const { return pos; }
 		void setPosition(const glm::ivec2 pos) { this->pos = pos; }
-		AnimatorPtr getAnimator() const { return animator; }
+		Animator* getAnimator() const { return animator; }
 		FlipMode getFlipMode() const { return flipMode; }
 		void setFlipMode(FlipMode flipMode) { this->flipMode = flipMode; }
 
@@ -35,7 +39,7 @@ namespace leaf {
 
 	protected:
 		glm::ivec2 pos;
-		AnimatorPtr animator;
+		Animator* animator;
 		FlipMode flipMode;
 
 	private:
