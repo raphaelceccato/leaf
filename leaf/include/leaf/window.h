@@ -183,6 +183,11 @@ namespace leaf {
 		void onResize(SDL_Event* ev) {
 
 		}
+
+
+		template<typename T> bool operator==(const _Window<T>& other) {
+			return (this->getSDLWindow() == other.getSDLWindow());
+		}
 	};
 }
 
