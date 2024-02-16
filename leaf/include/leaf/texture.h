@@ -15,8 +15,10 @@ namespace leaf {
 	class Texture {
 	public:
 		~Texture() {
-			if (handle)
+			_textures.erase(this);
+			if (handle) {
 				glDeleteTextures(1, (GLuint*)&handle);
+			}
 		}
 
 
