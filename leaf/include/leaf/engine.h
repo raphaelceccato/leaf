@@ -139,6 +139,11 @@ namespace leaf {
 		}
 
 
+		void sleep(unsigned int milliseconds) {
+			SDL_Delay(milliseconds);
+		}
+
+
 	private:
 		std::unordered_set<_Window<Engine>*> windows;
 		void* glContext;
