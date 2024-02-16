@@ -11,9 +11,6 @@
 
 
 namespace leaf {
-	class Shader;
-	typedef std::shared_ptr<Shader> ShaderPtr;
-
 	class Shader {
 	public:
 		Shader(const char* vertexCode, const char* fragmentCode) {
@@ -130,7 +127,7 @@ namespace leaf {
 		}
 
 
-		void setUniform(const char* name, TexturePtr texture, int unit) {
+		void setUniform(const char* name, Texture* texture, int unit) {
 			glActiveTexture(GL_TEXTURE0 + unit);
 			texture->bind();
 			int loc = glGetUniformLocation(program, name);
@@ -147,7 +144,7 @@ namespace leaf {
 
 		void setUniform(const char* name, Color color) {
 			int loc = glGetUniformLocation(program, name);
-			glUniform3f(loc, color.r / 255.0f, color.g / 255.0f, color.b / 255.0f);
+			glUniform4f(loc, color.r / 255.0f, color.g / 255.0f, color.b / 255.0f, color.a / 255.0f);
 		}
 
 		static void unbind() { glUseProgram(0); }
