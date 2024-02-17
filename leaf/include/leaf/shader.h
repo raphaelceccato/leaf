@@ -92,6 +92,18 @@ namespace leaf {
 		}
 
 
+		void setUniform(const char* name, glm::vec4 value) {
+			int loc = glGetUniformLocation(program, name);
+			glUniform4f(loc, value.x, value.y, value.z, value.w);
+		}
+
+
+		void setUniform(const char* name, glm::ivec4 value) {
+			int loc = glGetUniformLocation(program, name);
+			glUniform4i(loc, value.x, value.y, value.z, value.w);
+		}
+
+
 		void setUniform(const char* name, int values[], int count) {
 			int loc = glGetUniformLocation(program, name);
 			glUniform1iv(loc, count, values);
@@ -144,7 +156,7 @@ namespace leaf {
 
 		void setUniform(const char* name, Color color) {
 			int loc = glGetUniformLocation(program, name);
-			glUniform3f(loc, color.r / 255.0f, color.g / 255.0f, color.b / 255.0f);
+			glUniform4f(loc, color.r / 255.0f, color.g / 255.0f, color.b / 255.0f, color.a / 255.0f);
 		}
 
 		static void unbind() { glUseProgram(0); }
