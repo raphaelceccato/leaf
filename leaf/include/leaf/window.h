@@ -135,7 +135,7 @@ namespace leaf {
 
 
 		void setFullScreen(bool fullscreen) {
-			SDL_SetWindowFullScreen(win, (fullscreen ? SDL_WINDOW_FULLSCREEN : 0)); 
+			SDL_SetWindowFullscreen(win, (fullscreen ? SDL_WINDOW_FULLSCREEN : 0)); 
 		}
 
 
