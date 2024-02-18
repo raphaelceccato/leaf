@@ -92,6 +92,18 @@ namespace leaf {
 		}
 
 
+		void setUniform(const char* name, glm::vec4 value) {
+			int loc = glGetUniformLocation(program, name);
+			glUniform4f(loc, value.x, value.y, value.z, value.w);
+		}
+
+
+		void setUniform(const char* name, glm::ivec4 value) {
+			int loc = glGetUniformLocation(program, name);
+			glUniform4i(loc, value.x, value.y, value.z, value.w);
+		}
+
+
 		void setUniform(const char* name, int values[], int count) {
 			int loc = glGetUniformLocation(program, name);
 			glUniform1iv(loc, count, values);

@@ -11,7 +11,6 @@
 
 namespace leaf {
 	class Animation;
-	typedef std::shared_ptr<Animation> AnimationPtr;
 
 	struct AnimFrame {
 		Rect<int> rect;
@@ -25,13 +24,13 @@ namespace leaf {
 
 	class Animation {
 	public:
-		static AnimationPtr createStaticAnimation(TexturePtr tex, Rect<int> rect, glm::ivec2 offset = glm::ivec2(0, 0)) {
-			auto anim = std::make_shared<Animation>(tex, 1, false);
+		static Animation* createStaticAnimation(Texture* tex, Rect<int> rect, glm::ivec2 offset = glm::ivec2(0, 0)) {
+			Animation* anim = new Animation(tex, 1, false);
 			anim->addFrame(rect, offset);
 			return anim;
 		}
 
-		Animation(TexturePtr tex, unsigned int frameTime, bool repeat) {
+		Animation(Texture* tex, unsigned int frameTime, bool repeat) {
 			this->tex = tex;
 			this->frameTime = frameTime;
 			this->repeat = repeat;
@@ -45,12 +44,12 @@ namespace leaf {
 			return frames[index];
 		}
 		int getFrameCount() const { return frames.size(); }
-		TexturePtr getTexture() const { return tex; }
+		Texture* getTexture() const { return tex; }
 		bool isRepeating() const { return repeat; }
 		int getDuration() const { return (frameTime * frames.size()); }
 		int getFrameTime() const { return frameTime; }
 	private:
-		TexturePtr tex;
+		Texture* tex;
 		unsigned int frameTime;
 		bool repeat;
 		std::vector<AnimFrame> frames;
@@ -59,14 +58,11 @@ namespace leaf {
 	};
 
 
-	class Animator;
-	typedef std::shared_ptr<Animator> AnimatorPtr;
-
 	class Animator {
 	public:
-		Animator(AnimationPtr anim = nullptr) { this->anim = anim; }
-		AnimationPtr getAnimation() const { return anim; }
-		void setAnimation(AnimationPtr anim) {
+		Animator(Animation* anim = nullptr) { this->anim = anim; }
+		Animation* getAnimation() const { return anim; }
+		void setAnimation(Animation* anim) {
 			this->anim = anim;
 			reset();
 		}
@@ -79,7 +75,7 @@ namespace leaf {
 				: std::min(timer.getElapsedTime() / anim->getFrameTime(), (int)anim->frames.size() - 1)));
 		}
 	private:
-		AnimationPtr anim;
+		Animation* anim;
 		Timer timer;
 	};
 }

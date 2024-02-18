@@ -7,9 +7,6 @@
 
 
 namespace leaf {
-	class SoundChannel;
-	typedef std::shared_ptr<SoundChannel> SoundChannelPtr;
-
 	class SoundChannel {
 	public:
 		SoundChannel(unsigned int id) : alSource(0) {
@@ -29,7 +26,7 @@ namespace leaf {
 		}
 
 
-		void play(SoundPtr sound) {
+		void play(Sound* sound) {
 			alSourcei(alSource, AL_BUFFER, sound->getALBuffer());
 			alSourcePlay(alSource);
 		}

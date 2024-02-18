@@ -10,10 +10,6 @@
 
 
 namespace leaf {
-	class RenderTexture;
-	typedef std::shared_ptr<RenderTexture> RenderTexturePtr;
-
-
 	class RenderTexture : public Texture, public RenderTarget {
 	public:
 		~RenderTexture() {
@@ -32,7 +28,7 @@ namespace leaf {
 		int getFBO() { return fbo; }
 
 
-		static RenderTexturePtr create(int width, int height) {
+		static RenderTexture* create(int width, int height) {
 			int handle;
 			glGenTextures(1, (GLuint*)&handle);
 			if (!handle) {
@@ -56,7 +52,7 @@ namespace leaf {
 			if (a != GL_FRAMEBUFFER_COMPLETE)
 				throw std::exception("error creating FBO");
 
-			auto tex = std::shared_ptr<RenderTexture>(new RenderTexture());
+			RenderTexture* tex = new RenderTexture();
 			tex->handle = handle;
 			tex->width = width;
 			tex->height = height;
@@ -65,7 +61,7 @@ namespace leaf {
 		}
 
 
-		void draw(TexturePtr tex, int x, int y, int width, int height, ShaderPtr shader = nullptr) override {
+		void draw(Texture* tex, int x, int y, int width, int height, Shader* shader = nullptr) override {
 			float u = 1.0f;
 			float v = 1.0f;
 
@@ -96,7 +92,7 @@ namespace leaf {
 		}
 
 
-		void drawEx(TexturePtr tex, int x, int y, int width, int height, Rect<int> subrect, FlipMode flip, float angle, ShaderPtr shader = nullptr) override {
+		void drawEx(Texture* tex, int x, int y, int width, int height, Rect<int> subrect, FlipMode flip, float angle, Shader* shader = nullptr) override {
 			float u0 = 0, v0 = 0, u1 = 1, v1 = 1;
 			u0 = subrect.x / (float)tex->getWidth();
 			v0 = subrect.y / (float)tex->getHeight();

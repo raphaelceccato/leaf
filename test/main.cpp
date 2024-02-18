@@ -6,7 +6,7 @@ using namespace leaf;
 int main(int argc, char** argv) {
 	try {
 		Engine engine;
-		auto win = engine.createWindow("leaf test", 640, 480, false);
+		Window* win = engine.createWindow("leaf test", 640, 480, false);
 		auto tex = Texture::create("leaf.png");
 		bool running = true;
 		SDL_Event ev;
@@ -21,7 +21,7 @@ int main(int argc, char** argv) {
 				}
 			}
 			win->clear(Color(0, 0, 0));
-			win->drawEx(tex, 64, 32, 128, 128, Rect<int>(0, 0, tex->getWidth(), tex->getHeight())
+			win->drawEx(tex, 64, 32, 128, 128, Rect<int>(0, 0, tex->getWidth(), tex->getHeight()), FlipMode::None
 				, 6.28f * 0.001f * engine.getTicks());
 			win->redraw();
 		}
