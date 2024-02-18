@@ -3,10 +3,8 @@
 
 #include <memory>
 #include <string>
-#include <algorithm>
 #include <glm/vec2.hpp>
 #include <glm/mat4x4.hpp>
-#include <SDL2/SDL.h>
 #include <glm/gtc/matrix_transform.hpp>
 #include "rendertarget.h"
 
@@ -16,10 +14,13 @@ struct SDL_Window;
 namespace leaf {
 	class Engine;
 
+	template <typename TWindow> class Window; //this template is to avoid cyclic dependency
+	typedef std::shared_ptr<Window<Engine>> WindowPtr;
 
-	template <typename TEngine> class _Window : public RenderTarget {
+	template <typename TEngine>
+	class Window : public RenderTarget {
 	public:
-		~_Window() {
+		~Window() {
 			if (vao)
 				glDeleteVertexArrays(1, (GLuint*)&vao);
 			if (vbo)
@@ -60,7 +61,7 @@ namespace leaf {
 		void redraw() { SDL_GL_SwapWindow(win); }
 
 
-		void draw(Texture* tex, int x, int y, int width, int height, Shader* shader = nullptr) override {
+		void draw(TexturePtr tex, int x, int y, int width, int height, ShaderPtr shader = nullptr) override {
 			int winW, winH;
 			SDL_GetWindowSize(win, &winW, &winH);
 
@@ -89,7 +90,7 @@ namespace leaf {
 		}
 
 
-		void drawEx(Texture* tex, int x, int y, int width, int height, Rect<int> subrect, FlipMode flip, float angle, Shader* shader = nullptr) override {
+		void drawEx(TexturePtr tex, int x, int y, int width, int height, Rect<int> subrect, FlipMode flip, float angle, ShaderPtr shader = nullptr) override {
 			int winW, winH;
 			SDL_GetWindowSize(win, &winW, &winH);
 
@@ -134,8 +135,8 @@ namespace leaf {
 		}
 
 
-		template<typename T> bool operator==(const _Window<T>& other) const {
-			return (this->getSDLWindow() == other.getSDLWindow());
+		void setFullScreen(bool fullscreen) {
+			SDL_SetWindowFullScreen(win, (fullscreen ? SDL_WINDOW_FULLSCREEN : 0));
 		}
 
 
@@ -146,16 +147,14 @@ namespace leaf {
 
 		friend class Engine;
 
-		_Window(TEngine* engine, const char* title, int width, int height, bool resizable) {
+		Window(TEngine* engine, const char* title, int width, int height, bool resizable) {
 			this->engine = engine;
-			vao = vbo = 0;
 			win = SDL_CreateWindow(title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height,
 				SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | (resizable ? SDL_WINDOW_RESIZABLE : 0));
 			if (!win)
-				throw std::exception(("error creating SDL window: " + std::string(SDL_GetError()) + ")").c_str());
+				throw std::exception(("error creating window: " + std::string(SDL_GetError()) + ")").c_str());
 		}
 
-        _Window(const _Window& other) = delete;
 
 		void init() {
 			int width, height;
@@ -183,18 +182,7 @@ namespace leaf {
 		void onResize(SDL_Event* ev) {
 
 		}
-
-
-		template<typename T> bool operator==(const _Window<T>& other) {
-			return (this->getSDLWindow() == other.getSDLWindow());
-		}
 	};
 }
-
-template<typename T> struct std::hash<leaf::_Window<T>> {
-	size_t operator()(const leaf::_Window<T>& win) const {
-		return (size_t)win.getSDLWindow();
-	}
-};
 
 #endif
