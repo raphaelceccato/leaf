@@ -57,8 +57,7 @@ namespace leaf {
 				delete defaultShader;
 				defaultShader = NULL;
 			}
-			for (int i = 0; i < NUM_SOUND_CHANNELS; i++)
-				soundChannels[i] = NULL;
+			
 			initialized = false;
 			if (globalVBO)
 				glDeleteBuffers(1, (GLuint*)&globalVBO);
