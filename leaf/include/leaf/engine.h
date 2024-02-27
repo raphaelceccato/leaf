@@ -49,9 +49,13 @@ namespace leaf {
 				delete win;
 			windows.clear();
 
+			std::list<Texture*> texturesToDelete;
 			for (Texture* tex : Texture::_textures)
-				delete tex;
+				texturesToDelete.push_back(tex);
 			Texture::_textures.clear();
+			for (Texture* tex : texturesToDelete)
+				delete tex;
+			texturesToDelete.clear();
 
 			if (defaultShader) {
 				delete defaultShader;
